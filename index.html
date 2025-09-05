@@ -99,6 +99,12 @@
       justify-content: center;
       margin-bottom: 1.2rem;
     }
+    .mini-game-instr {
+      text-align: center;
+      margin: 0 0 0.8rem 0;
+      color: #e2e2e2;
+      font-size: 0.95rem;
+    }
     .mini-game-img-item {
       display: flex;
       flex-direction: column;
@@ -257,7 +263,8 @@
       background: #1f1f1f;
       border: 1px solid #333;
       border-radius: 12px;
-      padding: 0.7rem;
+  padding: 0.7rem;
+  margin-bottom: 0.6rem; /* spacing when placed in header */
     }
     .ref-item { display: flex; align-items: flex-start; gap: 0.6rem; margin-bottom: 0.6rem; font-size: 1rem; }
     .ref-badge {
@@ -299,7 +306,11 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      background: #181818;
+  /* Fallback color */
+  background: #181818;
+  /* Light blue center to black edges */
+  background-image: radial-gradient(circle at 50% 28%, #1a3246 0%, #113050 40%, #13233a 70%, #000000 100%);
+  background-attachment: fixed;
       overflow-x: hidden;
     }
     .container {
@@ -373,6 +384,7 @@
       line-height: 1.6;
       white-space: pre-line;
     }
+  .riddle-title { text-align: center; margin: 0 0 0.8rem 0; font-size: clamp(1.1rem, 4.8vw, 1.6rem); color: #fff; }
 
     @media (max-width: 700px) {
       .container { flex-direction: column; align-items: center; }
@@ -404,6 +416,7 @@
       <div class="mini-game-content">
         <button class="mini-game-btn-close" id="closeMiniGame" title="Fermer">&times;</button>
         <h2>Mini Jeu : Trouve le mot !</h2>
+  <p class="mini-game-instr">Voici la question : « Comment le Royaume de Dieu t’a aidé à garder l’espoir malgré les épreuves de la vie ? ». Trouve le mot avec les images.</p>
         <div class="mini-game-images" id="miniGameImages"></div>
   <input class="mini-game-input" id="miniGameInput" type="text" maxlength="10" placeholder="Tape le mot...">
   <button id="miniGameSendBtn" style="margin-top:0.7rem;padding:0.5rem 1.2rem;border-radius:8px;border:none;background:#4e54c8;color:#fff;font-size:1rem;font-weight:bold;cursor:pointer;">Envoyer</button>
@@ -472,6 +485,7 @@
   <div id="riddleModal" class="mini-game-modal" style="display:none;">
     <div class="riddle-content">
       <button class="mini-game-btn-close" id="closeRiddle" title="Fermer">&times;</button>
+  <h2 class="riddle-title">Bravo ! Voici la dernière énigme !</h2>
 Mon premier est celui qui donne sans condition, Il est la source de l’amour véritable, Celui qui unit, console et relève.
 
 Mon deuxième est ce que l’on garde même quand tout semble perdu, Il est l’espoir d’un monde meilleur, Celui qui fait vivre malgré les tempêtes.
@@ -486,6 +500,12 @@ Mon tout est une promesse pour ceux qui cherchent la paix, Il se trouve dans une
         <div class="match-header">
           <h2 class="match-title">Relie les témoignages à leur correspondance</h2>
           <p class="match-instr">Choisis A, B, C ou D pour chaque témoignage, puis valide.</p>
+          <div class="refs-list" id="refsList">
+            <div class="ref-item"><span class="ref-badge">A</span> <span>(Psaume 86:5)</span></div>
+            <div class="ref-item"><span class="ref-badge">B</span> <span>(Isaïe 65:17)</span></div>
+            <div class="ref-item"><span class="ref-badge">C</span> <span>(Psaume 72:7)</span></div>
+            <div class="ref-item"><span class="ref-badge">D</span> <span>(Psaume 37:10, 11)</span></div>
+          </div>
           <div id="matchResult" class="match-result"></div>
         </div>
         <div class="match-scroll">
@@ -536,14 +556,7 @@ Mon tout est une promesse pour ceux qui cherchent la paix, Il se trouve dans une
               </select>
             </div>
             </div>
-            <div class="match-col">
-              <div class="refs-list" id="refsList">
-                <div class="ref-item"><span class="ref-badge">A</span> <span>(Psaume 86:5)</span></div>
-                <div class="ref-item"><span class="ref-badge">B</span> <span>(Isaïe 65:17)</span></div>
-                <div class="ref-item"><span class="ref-badge">C</span> <span>(Psaume 72:7)</span></div>
-                <div class="ref-item"><span class="ref-badge">D</span> <span>(Psaume 37:10, 11)</span></div>
-              </div>
-            </div>
+            <!-- references moved to header -->
           </div>
         </div>
         <div class="match-footer">
