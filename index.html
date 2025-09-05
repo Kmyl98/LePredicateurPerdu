@@ -177,6 +177,7 @@
       text-shadow: 0 2px 10px rgba(0,0,0,0.35);
     }
     .congrats-subtitle { color: #e7e7e7; margin-top: 0.2rem; font-size: 1rem; }
+  .congrats-extra { color: #cfd3ff; font-size: 0.95rem; margin-top: 0.4rem; opacity: 0.9; }
     /* Tiny bottom-right trigger */
     .potato-trigger {
   position: fixed;
@@ -414,7 +415,7 @@
   <div class="welcome">
     <p>Chers jeunes,</p>
     <p>Aujourd’hui, nous avons une belle occasion : non seulement celle de prêcher la bonne nouvelle, mais aussi d’inviter les personnes à réfléchir à une promesse biblique profondément touchante.</p>
-    <p>Dans La Tour de Garde (sept/oct 2025), nous vous proposons un petit jeu spirituel basé uniquement sur cette revue</p>
+    <p>Dans La Tour de Garde "La fin des guerres - Comment ?", nous vous proposons un petit jeu spirituel basé uniquement sur cette revue</p>
   </div>
   <div class="container">
   <div class="square" id="right-square">1ère partie</div>
@@ -483,6 +484,7 @@
       <button class="mini-game-btn-close" id="closeCongrats" title="Fermer">&times;</button>
       <div class="congrats-subtitle">Bravo ! Tu as complété le défi, voici le mot.</div>
       <div id="congratsWord" class="congrats-word">MOT</div>
+  <div id="congratsExtra" class="congrats-extra" style="display:none;"></div>
     </div>
   </div>
   <!-- Combined password modal for lock strip -->
@@ -887,10 +889,21 @@ Mon tout est une promesse pour ceux qui cherchent la paix, Il se trouve dans une
     (function(){
       const modal = document.getElementById('congratsModal');
       const wordEl = document.getElementById('congratsWord');
+      const extraEl = document.getElementById('congratsExtra');
       const closeBtn = document.getElementById('closeCongrats');
       function open(word){
         if (!modal || !wordEl) return;
-        wordEl.textContent = String(word || '').toUpperCase();
+        const w = String(word || '').toUpperCase();
+        wordEl.textContent = w;
+        if (extraEl) {
+          if (w === 'ESPOIR') {
+            extraEl.innerHTML = 'et avec ça, une question à poser à nos frères et soeurs âgé :<br>« Comment le Royaume de Dieu t’a aidé à garder l’espoir malgré les épreuves de la vie ? »';
+            extraEl.style.display = 'block';
+          } else {
+            extraEl.style.display = 'none';
+            extraEl.textContent = '';
+          }
+        }
         modal.style.display = 'flex';
       }
       function close(){ if (modal) modal.style.display = 'none'; }
