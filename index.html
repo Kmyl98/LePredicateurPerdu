@@ -5,43 +5,321 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Centered Squares</title>
   <style>
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    .mini-game-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .mini-game-content {
+      background: #222;
+      border-radius: 18px;
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+      max-width: 95vw;
+      width: 420px;
+      color: #fff;
+      position: relative;
+      text-align: center;
+    }
+    .mini-game-images {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+      gap: 0.75rem;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+    }
+    .mini-game-img-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .mini-game-img-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 0.3rem;
+      background: #333;
+    }
+    .mini-game-letter {
+      font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 0.2rem;
+    }
+    .mini-game-input {
+      margin-top: 1rem;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 280px;
+      outline: none;
+    }
+    .mini-game-btn-close {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .mini-game-success {
+      color: #7fff7f;
+      font-weight: bold;
+      margin-top: 1rem;
+      font-size: 1.2rem;
+    }
+    /* Tiny bottom-right trigger */
+    .potato-trigger {
+  position: fixed;
+  right: env(safe-area-inset-right, 0px);
+  bottom: env(safe-area-inset-bottom, 0px);
+      width: 4px;
+      height: 4px;
+      background: #cfcfcf;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      border-top-left-radius: 1px;
+      opacity: 0.9;
+      z-index: 2000;
+    }
+    /* Overlay to show the potato image */
+    .potato-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 3000; /* Above mini-game modal */
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+    .potato-overlay img {
+      max-width: 90vw;
+  max-height: 85svh;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.45);
+      display: block;
+    }
+    .potato-fallback {
+      color: #fff;
+      margin-top: 1rem;
+      font-size: 1rem;
+      text-align: center;
+    }
     body {
-      min-height: 100vh;
+  min-height: 100vh;
+  min-height: 100svh; /* iOS dynamic viewport */
       margin: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       background: #181818;
+  overflow-x: hidden;
     }
     .container {
-      display: flex;
-      gap: 3rem;
+  display: flex;
+  gap: clamp(1rem, 4vw, 3rem);
+      flex-wrap: wrap;
+      justify-content: center;
+  padding: 1rem;
     }
     .square {
-      width: 250px;
-      height: 250px;
+  width: clamp(140px, 42vw, 260px);
+  height: clamp(140px, 42vw, 260px);
       background: linear-gradient(135deg, #4e54c8, #8f94fb);
       border-radius: 24px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.25);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2rem;
+  font-size: clamp(1rem, 4.5vw, 2rem);
       color: #fff;
       font-family: 'Segoe UI', Arial, sans-serif;
       font-weight: bold;
       transition: transform 0.2s, box-shadow 0.2s;
+      margin-bottom: 2rem;
     }
     .square:hover {
       transform: scale(1.05);
       box-shadow: 0 12px 40px rgba(0,0,0,0.35);
     }
+    .square.inactive {
+      pointer-events: none;
+      opacity: 0.5;
+      filter: grayscale(0.5);
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 700px) {
+      .container { flex-direction: column; align-items: center; }
+      .mini-game-content { width: 92vw; padding: 1.2rem 1rem 1rem 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .mini-game-images { gap: 0.6rem; grid-template-columns: repeat(3, 1fr); }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="square">Square 1</div>
-    <div class="square">Square 2</div>
+  <div class="square" id="right-square">Square 2</div>
+  <div class="square" id="left-square" style="cursor:pointer;">Square 1</div>
+    <!-- Mini-game modal -->
+    <div id="miniGameModal" class="mini-game-modal" style="display:none;">
+      <div class="mini-game-content">
+        <button class="mini-game-btn-close" id="closeMiniGame" title="Fermer">&times;</button>
+        <h2>Mini Jeu : Trouve le mot !</h2>
+        <div class="mini-game-images" id="miniGameImages"></div>
+  <input class="mini-game-input" id="miniGameInput" type="text" maxlength="10" placeholder="Tape le mot...">
+  <button id="miniGameSendBtn" style="margin-top:0.7rem;padding:0.5rem 1.2rem;border-radius:8px;border:none;background:#4e54c8;color:#fff;font-size:1rem;font-weight:bold;cursor:pointer;">Envoyer</button>
+  <div id="miniGameResult"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Tiny bottom-right button -->
+  <button id="potatoTrigger" class="potato-trigger" aria-label="Afficher patate"></button>
+  <!-- Overlay for potato image -->
+  <div id="potatoOverlay" class="potato-overlay" role="dialog" aria-modal="true" style="display:none;">
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <img id="potatoImg" alt="Photo de patate">
+      <div id="potatoFallback" class="potato-fallback" style="display:none;">Impossible de charger "patate.jpg". Ajoutez l'image au dossier. 🥔</div>
+    </div>
   </div>
 </body>
+  <script>
+    // Images (remplacer par vos vraies images si besoin)
+    const trueImages = [
+      { src: 'trueA.jpg', letter: 'A' },
+      { src: 'trueM.jpg', letter: 'M' },
+      { src: 'trueO.jpg', letter: 'O' },
+      { src: 'trueU.jpg', letter: 'U' },
+      { src: 'trueR.jpg', letter: 'R' }
+    ];
+  const falseImages = Array.from({length: 10}, (_, i) => ({ src: `false${i+1}.png` }));
+
+    // Lettres aléatoires pour les fausses images
+    function randomLetter() {
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      return alphabet[Math.floor(Math.random() * alphabet.length)];
+    }
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function showMiniGame() {
+      // Génère la liste d'images avec lettres
+      const images = [
+        ...trueImages.map(img => ({...img, isTrue: true})),
+        ...falseImages.map(img => ({...img, letter: randomLetter(), isTrue: false}))
+      ];
+      shuffleArray(images);
+      const imagesDiv = document.getElementById('miniGameImages');
+      imagesDiv.innerHTML = '';
+      images.forEach(img => {
+        const item = document.createElement('div');
+        item.className = 'mini-game-img-item';
+        const image = document.createElement('img');
+        image.src = img.src;
+        image.alt = '';
+        image.onerror = function() { this.style.opacity = 0.3; this.src = 'image.jpg'; };
+        const letter = document.createElement('div');
+        letter.className = 'mini-game-letter';
+        letter.textContent = img.letter;
+        item.appendChild(image);
+        item.appendChild(letter);
+        imagesDiv.appendChild(item);
+      });
+      document.getElementById('miniGameInput').value = '';
+      document.getElementById('miniGameResult').textContent = '';
+      document.getElementById('miniGameModal').style.display = 'flex';
+    }
+
+    function handleLeftSquareClick() {
+      const pwd = prompt('Entre le mot de passe pour ouvrir le jeu :');
+      if (!pwd) return; // annulé ou vide => ne rien faire
+      if (pwd.trim().toUpperCase() === 'ROYAUME') {
+        showMiniGame();
+      } else {
+        alert('Mot de passe incorrect');
+      }
+    }
+
+    document.getElementById('left-square').addEventListener('click', handleLeftSquareClick);
+    document.getElementById('closeMiniGame').addEventListener('click', function() {
+      document.getElementById('miniGameModal').style.display = 'none';
+    });
+
+    document.getElementById('miniGameSendBtn').addEventListener('click', function() {
+      const val = document.getElementById('miniGameInput').value.trim().toUpperCase();
+      if(val === 'AMOUR') {
+        document.getElementById('miniGameResult').innerHTML = '<div class="mini-game-success">Bravo ! Tu as trouvé le mot !</div>';
+      } else {
+        document.getElementById('miniGameResult').innerHTML = '<div style="color:#ff7f7f;font-weight:bold;">Mauvais mot, réessaie !</div>';
+      }
+    });
+
+    // Potato button interactions (.jpeg first, fallback to .jpg)
+    (function(){
+      const trigger = document.getElementById('potatoTrigger');
+      const overlay = document.getElementById('potatoOverlay');
+      const img = document.getElementById('potatoImg');
+      const fallback = document.getElementById('potatoFallback');
+
+      const candidates = ['patate.jpeg', 'patate.jpg'];
+      let idx = 0;
+
+      function tryNext() {
+        if (idx < candidates.length) {
+          img.src = candidates[idx++];
+        } else {
+          img.style.display = 'none';
+          fallback.textContent = 'Impossible de charger "patate.jpeg" ni "patate.jpg". Ajoutez l\'image au dossier. 🥔';
+          fallback.style.display = 'block';
+        }
+      }
+
+      function openOverlay() {
+        overlay.style.display = 'flex';
+        fallback.style.display = 'none';
+        img.style.display = 'block';
+        idx = 0;
+        tryNext();
+      }
+
+      if (trigger && overlay) {
+        trigger.addEventListener('click', function(e){
+          e.stopPropagation();
+          openOverlay();
+        });
+        overlay.addEventListener('click', function(){
+          overlay.style.display = 'none';
+        });
+      }
+      if (img) {
+        img.addEventListener('error', tryNext);
+      }
+    })();
+  </script>
 </html>
