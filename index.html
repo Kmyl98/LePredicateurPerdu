@@ -16,7 +16,12 @@
       font-size: clamp(0.95rem, 3.6vw, 1.1rem);
       text-align: center;
       opacity: 0.95;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      hyphens: auto;
     }
+    .welcome p { margin: 0.25rem 0; }
     /* Site header */
     .site-header {
       position: sticky;
@@ -393,6 +398,7 @@
 
     @media (max-width: 480px) {
       .mini-game-images { gap: 0.6rem; grid-template-columns: repeat(3, 1fr); }
+  .welcome { font-size: 0.95rem; padding: 0.4rem 0.8rem; }
     }
   </style>
 </head>
