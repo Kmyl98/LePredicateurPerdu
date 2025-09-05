@@ -6,11 +6,12 @@
   <title>Centered Squares</title>
   <style>
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    *, *::before, *::after { box-sizing: border-box; }
     .welcome {
       width: 100%;
-      max-width: 1100px;
+      max-width: min(1100px, 92vw);
       margin: 0.4rem auto 0.2rem auto;
-      padding: 0.25rem 1rem;
+      padding: 0.25rem clamp(0.6rem, 4vw, 1rem);
       color: #eaeaea;
       font-family: 'Segoe UI', Arial, sans-serif;
       font-size: clamp(0.95rem, 3.6vw, 1.1rem);
@@ -110,6 +111,7 @@
       color: #e2e2e2;
       font-size: 0.95rem;
     }
+  .mini-game-instr p { margin: 0.35rem 0; }
     .mini-game-img-item {
       display: flex;
       flex-direction: column;
@@ -426,7 +428,15 @@
       <div class="mini-game-content">
         <button class="mini-game-btn-close" id="closeMiniGame" title="Fermer">&times;</button>
         <h2>Mini Jeu : Trouve le mot !</h2>
-  <p class="mini-game-instr">Voici la question : « Comment le Royaume de Dieu t’a aidé à garder l’espoir malgré les épreuves de la vie ? ». Trouve le mot avec les images.</p>
+        <div class="mini-game-instr">
+          <p><em>Félicitations&nbsp;!</em><br>
+          Tu viens de vivre un moment précieux&nbsp;: une discussion avec un ami intime de Dieu. Ce partage t’a permis de découvrir une part de son amour et de son espérance.</p>
+
+          <p>Maintenant, une nouvelle mission t’attend.<br>
+          Grâce aux <em>images de La Tour de Garde</em>, observe attentivement les scènes, les émotions, les symboles…<br>
+          Chaque image a une lettre associée.<br>
+          Trouve le mot caché, et tu débloqueras la dernière étape de ton parcours spirituel.</p>
+        </div>
         <div class="mini-game-images" id="miniGameImages"></div>
   <input class="mini-game-input" id="miniGameInput" type="text" maxlength="10" placeholder="Tape le mot...">
   <button id="miniGameSendBtn" style="margin-top:0.7rem;padding:0.5rem 1.2rem;border-radius:8px;border:none;background:#4e54c8;color:#fff;font-size:1rem;font-weight:bold;cursor:pointer;">Envoyer</button>
@@ -496,11 +506,7 @@
     <div class="riddle-content">
       <button class="mini-game-btn-close" id="closeRiddle" title="Fermer">&times;</button>
   <h2 class="riddle-title">Bravo ! Voici la dernière énigme !</h2>
-Mon premier est celui qui donne sans condition, Il est la source de l’amour véritable, Celui qui unit, console et relève.
-
-Mon deuxième est ce que l’on garde même quand tout semble perdu, Il est l’espoir d’un monde meilleur, Celui qui fait vivre malgré les tempêtes.
-
-Mon tout est une promesse pour ceux qui cherchent la paix, Il se trouve dans une lettre adressée à des frères unis, Et il affirme que le Dieu d’amour et de paix sera avec eux.
+Grâce à cette énigme, tu découvriras un verset biblique. Bonne chance ! En la résolvant, tu débloqueras une récompense spéciale, à découvrir lors du pique-nique.
     </div>
   </div>
     <!-- Match-game modal (right square) -->
