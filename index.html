@@ -6,6 +6,51 @@
   <title>Centered Squares</title>
   <style>
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    .welcome {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0.4rem auto 0.2rem auto;
+      padding: 0.25rem 1rem;
+      color: #eaeaea;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: clamp(0.95rem, 3.6vw, 1.1rem);
+      text-align: center;
+      opacity: 0.95;
+    }
+    /* Site header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      background: #121212;
+      border-bottom: 1px solid #2a2a2a;
+      padding: 0.6rem 1rem;
+      padding-top: calc(0.6rem + env(safe-area-inset-top, 0px));
+      z-index: 1100;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+    }
+    .site-header .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .site-header .brand img {
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+      border-radius: 6px;
+      background: #1f1f1f;
+    }
+    .site-header .brand h1 {
+      margin: 0;
+      color: #ffffff;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: clamp(1.05rem, 4.5vw, 1.5rem);
+      letter-spacing: 0.4px;
+      font-weight: 700;
+    }
     .mini-game-modal {
       position: fixed;
       top: 0;
@@ -18,16 +63,34 @@
       justify-content: center;
       z-index: 1000;
     }
+    .pwd-content {
+      background: #222;
+      border-radius: 16px;
+      padding: 1rem 1rem 0.9rem 1rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+      width: 90vw;
+      max-width: 360px;
+      color: #fff;
+      position: relative;
+      text-align: center;
+    }
+    .pwd-title { margin: 0 0 0.5rem; font-size: 1.1rem; }
+    .pwd-input { width: 100%; max-width: 260px; padding: 0.6rem 0.8rem; font-size: 1rem; border-radius: 8px; border: 1px solid #444; background: #1b1b1b; color: #fff; }
+    .pwd-actions { margin-top: 0.7rem; display: flex; gap: 0.5rem; justify-content: center; }
+    .pwd-error { margin-top: 0.5rem; color: #ff9f9f; font-weight: 600; min-height: 1.2em; }
     .mini-game-content {
       background: #222;
       border-radius: 18px;
-      padding: 2rem 1.5rem 1.5rem 1.5rem;
+  padding: 1.4rem 1.1rem 1.1rem 1.1rem;
       box-shadow: 0 4px 24px rgba(0,0,0,0.4);
       max-width: 95vw;
       width: 420px;
       color: #fff;
       position: relative;
-      text-align: center;
+  text-align: center;
+  max-height: 85svh;
+  overflow: auto;
+  font-size: 1rem;
     }
     .mini-game-images {
       display: grid;
@@ -49,17 +112,17 @@
       background: #333;
     }
     .mini-game-letter {
-      font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+  font-size: clamp(1rem, 4vw, 1.4rem);
       font-weight: bold;
       letter-spacing: 2px;
       margin-bottom: 0.2rem;
     }
     .mini-game-input {
       margin-top: 1rem;
-      padding: 0.6rem 1rem;
+  padding: 0.7rem 1rem;
       border-radius: 8px;
       border: none;
-      font-size: 1rem;
+  font-size: 1.05rem;
       width: 100%;
       max-width: 280px;
       outline: none;
@@ -80,6 +143,27 @@
       margin-top: 1rem;
       font-size: 1.2rem;
     }
+    /* Congrats modal */
+    .congrats-content {
+      background: #222;
+      border-radius: 18px;
+      padding: 1.4rem 1.1rem 1.2rem 1.1rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+      max-width: 95vw;
+      width: 420px;
+      color: #fff;
+      position: relative;
+      text-align: center;
+    }
+    .congrats-word {
+      font-size: clamp(2.2rem, 9vw, 3.2rem);
+      font-weight: 900;
+      letter-spacing: 6px;
+      margin-top: 0.4rem;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+    }
+    .congrats-subtitle { color: #e7e7e7; margin-top: 0.2rem; font-size: 1rem; }
     /* Tiny bottom-right trigger */
     .potato-trigger {
   position: fixed;
@@ -123,15 +207,97 @@
       font-size: 1rem;
       text-align: center;
     }
-    body {
-  min-height: 100vh;
-  min-height: 100svh; /* iOS dynamic viewport */
-      margin: 0;
-      display: flex;
+    /* Match game (right square) */
+    .match-game-content {
+      background: #222;
+      border-radius: 18px;
+      padding: 1.2rem 1rem 1rem 1rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+      max-width: 95vw;
+      width: 820px;
+      color: #fff;
+      position: relative;
+      text-align: left;
+      font-size: 1rem;
+      line-height: 1.5;
+      max-height: 85svh;
+      overflow: auto;
+    }
+    .match-title { text-align: center; margin: 0 0 0.8rem 0; font-size: clamp(1.1rem, 4.8vw, 1.6rem); color: #fff; }
+    .match-instr { text-align: center; margin: 0 0 0.8rem 0; color: #e2e2e2; font-size: 0.95rem; }
+    .match-grid {
+      display: grid;
+      grid-template-columns: 1fr 0.9fr;
+      gap: 0.8rem;
+      max-height: 70svh;
+      overflow: auto;
+    }
+    .match-col { display: flex; flex-direction: column; gap: 0.6rem; }
+    .testimony {
+      background: #2a2a2a;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 0.7rem;
+    }
+    .testimony h4 { margin: 0 0 0.4rem; font-size: 1rem; color: #e0e0e0; }
+    .testimony p { margin: 0 0 0.5rem; font-size: clamp(0.9rem, 3.2vw, 1.05rem); color: #f3f3f3; }
+    .match-select {
+      width: 100%;
+      padding: 0.6rem 0.6rem;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #1b1b1b;
+      color: #fff;
+      font-size: 1rem;
+    }
+    .refs-list {
+      background: #1f1f1f;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 0.7rem;
+    }
+    .ref-item { display: flex; align-items: flex-start; gap: 0.6rem; margin-bottom: 0.6rem; font-size: 1rem; }
+    .ref-badge {
+      min-width: 1.4rem;
+      height: 1.4rem;
+      border-radius: 0.4rem;
+      background: #4e54c8;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .match-actions { margin-top: 0.8rem; display: flex; gap: 0.6rem; justify-content: center; }
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: none;
+      background: #4e54c8;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn.secondary { background: #3a3a3a; }
+    .match-result { text-align: center; margin-top: 0.8rem; font-weight: 700; font-size: 1rem; }
+    .ok { color: #7fff7f; }
+    .ko { color: #ff9f9f; }
+    .is-correct { border-color: #3fae3f !important; }
+    .is-wrong { border-color: #e05757 !important; }
+    @media (max-width: 860px) {
+      .match-game-content { width: 94vw; }
+      .match-grid { grid-template-columns: 1fr; }
+    }
+    body {
+      min-height: 100vh;
+      min-height: 100svh; /* iOS dynamic viewport */
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
       background: #181818;
-  overflow-x: hidden;
+      overflow-x: hidden;
     }
     .container {
   display: flex;
@@ -139,6 +305,7 @@
       flex-wrap: wrap;
       justify-content: center;
   padding: 1rem;
+      margin-top: 0.5rem;
     }
     .square {
   width: clamp(140px, 42vw, 260px);
@@ -167,6 +334,43 @@
       cursor: not-allowed;
     }
 
+    /* Bottom lock strip */
+    .lock-strip {
+      margin: -1rem auto 1.2rem auto;
+      width: clamp(160px, 40vw, 260px);
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 14px;
+      color: #eaeaea;
+      font-size: 1.6rem;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.28);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      user-select: none;
+    }
+    .lock-strip:hover { transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,0.34); background:#242424; }
+    .lock-strip:active { transform: translateY(0); }
+
+    /* Riddle modal */
+    .riddle-content {
+      background: #222;
+      border-radius: 18px;
+      padding: 1.3rem 1.1rem 1.2rem 1.1rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+      max-width: 95vw;
+      width: 820px;
+      color: #fff;
+      position: relative;
+      text-align: left;
+      font-size: clamp(1rem, 2.6vw, 1.4rem);
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
     @media (max-width: 700px) {
       .container { flex-direction: column; align-items: center; }
       .mini-game-content { width: 92vw; padding: 1.2rem 1rem 1rem 1rem; }
@@ -178,9 +382,20 @@
   </style>
 </head>
 <body>
+  <header class="site-header">
+    <div class="brand">
+      <img src="logo.png" alt="Logo" onerror="this.style.opacity=0.3">
+      <h1>Le prédicateur Perdu</h1>
+    </div>
+  </header>
+  <div class="welcome">Bienvenue, Invité.</div>
   <div class="container">
-  <div class="square" id="right-square">Square 2</div>
-  <div class="square" id="left-square" style="cursor:pointer;">Square 1</div>
+  <div class="square" id="right-square">Relier</div>
+  <div class="square" id="left-square" style="cursor:pointer;">Mot mystère</div>
+  <!-- Bottom lock between the two squares -->
+  <div id="lockStrip" class="lock-strip" title="Déverrouiller">
+    🔒
+  </div>
     <!-- Mini-game modal -->
     <div id="miniGameModal" class="mini-game-modal" style="display:none;">
       <div class="mini-game-content">
@@ -193,6 +408,30 @@
       </div>
     </div>
   </div>
+  <!-- Password modal for left block -->
+  <div id="pwdModal" class="mini-game-modal" style="display:none;">
+    <div class="pwd-content">
+      <button class="mini-game-btn-close" id="closePwd" title="Fermer">&times;</button>
+      <h3 class="pwd-title">Mot de passe requis</h3>
+      <input id="pwdInput" class="pwd-input" type="text" inputmode="latin" autocomplete="off" placeholder="Mot de passe" />
+      <div class="pwd-actions">
+        <button id="pwdSubmit" class="btn">Valider</button>
+      </div>
+      <div id="pwdMsg" class="pwd-error"></div>
+    </div>
+  </div>
+  <!-- Password modal for right block (Relier) -->
+  <div id="pwdModalRelier" class="mini-game-modal" style="display:none;">
+    <div class="pwd-content">
+      <button class="mini-game-btn-close" id="closePwdRelier" title="Fermer">&times;</button>
+      <h3 class="pwd-title">Mot de passe requis</h3>
+      <input id="pwdInputRelier" class="pwd-input" type="text" inputmode="latin" autocomplete="off" placeholder="Mot de passe" />
+      <div class="pwd-actions">
+        <button id="pwdSubmitRelier" class="btn">Valider</button>
+      </div>
+      <div id="pwdMsgRelier" class="pwd-error"></div>
+    </div>
+  </div>
   <!-- Tiny bottom-right button -->
   <button id="potatoTrigger" class="potato-trigger" aria-label="Afficher patate"></button>
   <!-- Overlay for potato image -->
@@ -202,6 +441,110 @@
       <div id="potatoFallback" class="potato-fallback" style="display:none;">Impossible de charger "patate.jpg". Ajoutez l'image au dossier. 🥔</div>
     </div>
   </div>
+  <!-- Congrats modal (reusable) -->
+  <div id="congratsModal" class="mini-game-modal" style="display:none;">
+    <div class="congrats-content">
+      <button class="mini-game-btn-close" id="closeCongrats" title="Fermer">&times;</button>
+      <div class="congrats-subtitle">Bravo ! Tu as complété le défi, voici le mot.</div>
+      <div id="congratsWord" class="congrats-word">MOT</div>
+    </div>
+  </div>
+  <!-- Combined password modal for lock strip -->
+  <div id="pwdModalLock" class="mini-game-modal" style="display:none;">
+    <div class="pwd-content">
+      <button class="mini-game-btn-close" id="closePwdLock" title="Fermer">&times;</button>
+      <h3 class="pwd-title">Entre les 2 mots séparés par " - "</h3>
+      <div class="pwd-two-inputs" style="display:flex;align-items:center;gap:0.5rem;justify-content:center;">
+        <input id="pwdInputLock1" class="pwd-input" type="text" inputmode="latin" autocomplete="off" placeholder="Mot 1" />
+        <span aria-hidden="true" style="color:#aaa;user-select:none;">-</span>
+        <input id="pwdInputLock2" class="pwd-input" type="text" inputmode="latin" autocomplete="off" placeholder="Mot 2" />
+      </div>
+      <div class="pwd-actions">
+        <button id="pwdSubmitLock" class="btn">Valider</button>
+      </div>
+      <div id="pwdMsgLock" class="pwd-error"></div>
+    </div>
+  </div>
+  <!-- Riddle modal: only big text -->
+  <div id="riddleModal" class="mini-game-modal" style="display:none;">
+    <div class="riddle-content">
+      <button class="mini-game-btn-close" id="closeRiddle" title="Fermer">&times;</button>
+Mon premier est celui qui donne sans condition, Il est la source de l’amour véritable, Celui qui unit, console et relève.
+
+Mon deuxième est ce que l’on garde même quand tout semble perdu, Il est l’espoir d’un monde meilleur, Celui qui fait vivre malgré les tempêtes.
+
+Mon tout est une promesse pour ceux qui cherchent la paix, Il se trouve dans une lettre adressée à des frères unis, Et il affirme que le Dieu d’amour et de paix sera avec eux.
+    </div>
+  </div>
+    <!-- Match-game modal (right square) -->
+    <div id="matchGameModal" class="mini-game-modal" style="display:none;">
+      <div class="match-game-content">
+        <button class="mini-game-btn-close" id="closeMatchGame" title="Fermer">&times;</button>
+        <h2 class="match-title">Relie les témoignages à leur correspondance</h2>
+        <p class="match-instr">Choisis A, B, C ou D pour chaque témoignage, puis valide.</p>
+        <div class="match-grid">
+          <div class="match-col" id="testimoniesCol">
+            <div class="testimony" id="t1-box">
+              <h4>Wilmar, Colombie</h4>
+              <p>« J’ai été blessé par balles au dos et au visage, et j’ai vu beaucoup de gens, dont des enfants et des personnes âgées, se faire tuer. La guerre endurcit le cœur »</p>
+              <select id="t1" class="match-select" aria-label="Choix correspondance 1">
+                <option value="">— Choisir —</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+              </select>
+            </div>
+            <div class="testimony" id="t2-box">
+              <h4>Zafirah, États-Unis</h4>
+              <p>« Lorsque quelqu’un se fait abattre sous vos yeux, la scène ne s’efface pas comme ça de votre mémoire. Les cris et les gémissements ne cessent de résonner dans votre esprit. Jamais vous n’oubliez cette personne »</p>
+              <select id="t2" class="match-select" aria-label="Choix correspondance 2">
+                <option value="">— Choisir —</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+              </select>
+            </div>
+            <div class="testimony" id="t3-box">
+              <h4>Oleksandra, Ukraine</h4>
+              <p>« J’avais l’impression que je ne pourrais plus jamais être heureuse. On a peur pour sa vie, mais pas seulement ; on tremble aussi pour la vie de sa famille et de ses amis »</p>
+              <select id="t3" class="match-select" aria-label="Choix correspondance 3">
+                <option value="">— Choisir —</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+              </select>
+            </div>
+            <div class="testimony" id="t4-box">
+              <h4>Daler, Tadjikistan</h4>
+              <p>« Faire la queue de 2 heures à 23 heures pour se procurer de la nourriture, sachant qu’à tout moment on peut être touché par une balle perdue, c’est terrifiant »</p>
+              <select id="t4" class="match-select" aria-label="Choix correspondance 4">
+                <option value="">— Choisir —</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+              </select>
+            </div>
+          </div>
+          <div class="match-col">
+            <div class="refs-list" id="refsList">
+              <div class="ref-item"><span class="ref-badge">A</span> <span>(Psaume 86:5)</span></div>
+              <div class="ref-item"><span class="ref-badge">B</span> <span>(Isaïe 65:17)</span></div>
+              <div class="ref-item"><span class="ref-badge">C</span> <span>(Psaume 72:7)</span></div>
+              <div class="ref-item"><span class="ref-badge">D</span> <span>(Psaume 37:10, 11)</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="match-actions">
+          <button id="matchValidate" class="btn">Valider</button>
+          <button id="matchReset" class="btn secondary">Réinitialiser</button>
+        </div>
+        <div id="matchResult" class="match-result"></div>
+      </div>
+    </div>
 </body>
   <script>
     // Images (remplacer par vos vraies images si besoin)
@@ -214,11 +557,26 @@
     ];
   const falseImages = Array.from({length: 10}, (_, i) => ({ src: `false${i+1}.png` }));
 
-    // Lettres aléatoires pour les fausses images
-    function randomLetter() {
-      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      return alphabet[Math.floor(Math.random() * alphabet.length)];
-    }
+    // Lettres fixes par image (pour éviter le changement aléatoire)
+    const fixedLetters = {
+      'trueA.jpg': 'A',
+      'trueM.jpg': 'M',
+      'trueO.jpg': 'O',
+      'trueU.jpg': 'U',
+      'trueR.jpg': 'R',
+      'false1.png': 'B',
+      'false2.png': 'C',
+      'false3.png': 'D',
+      'false4.png': 'E',
+      'false5.png': 'F',
+      'false6.png': 'G',
+      'false7.png': 'H',
+      'false8.png': 'I',
+      'false9.png': 'J',
+      'false10.png': 'K'
+    };
+
+  // (Les lettres sont désormais fixes par image; plus de génération aléatoire)
 
     function shuffleArray(arr) {
       for (let i = arr.length - 1; i > 0; i--) {
@@ -231,8 +589,9 @@
     function showMiniGame() {
       // Génère la liste d'images avec lettres
       const images = [
-        ...trueImages.map(img => ({...img, isTrue: true})),
-        ...falseImages.map(img => ({...img, letter: randomLetter(), isTrue: false}))
+        // Utiliser les lettres fixes pour chaque image
+        ...trueImages.map(img => ({...img, isTrue: true, letter: fixedLetters[img.src] ?? img.letter })),
+        ...falseImages.map(img => ({...img, letter: fixedLetters[img.src] ?? '?', isTrue: false}))
       ];
       shuffleArray(images);
       const imagesDiv = document.getElementById('miniGameImages');
@@ -256,17 +615,30 @@
       document.getElementById('miniGameModal').style.display = 'flex';
     }
 
-    function handleLeftSquareClick() {
-      const pwd = prompt('Entre le mot de passe pour ouvrir le jeu :');
-      if (!pwd) return; // annulé ou vide => ne rien faire
-      if (pwd.trim().toUpperCase() === 'ROYAUME') {
-        showMiniGame();
-      } else {
-        alert('Mot de passe incorrect');
-      }
-    }
+    // Password modal logic for left-square
+    (function(){
+      const left = document.getElementById('left-square');
+      const modal = document.getElementById('pwdModal');
+      const closeBtn = document.getElementById('closePwd');
+      const input = document.getElementById('pwdInput');
+      const submit = document.getElementById('pwdSubmit');
+      const msg = document.getElementById('pwdMsg');
 
-    document.getElementById('left-square').addEventListener('click', handleLeftSquareClick);
+      function open(){ if (modal){ modal.style.display = 'flex'; msg.textContent=''; input.value=''; setTimeout(()=>input.focus(), 0); } }
+      function close(){ if (modal) modal.style.display = 'none'; }
+      function sanitize(v){ return (v || '').normalize('NFD').replace(/\p{Diacritic}/gu,'').trim().toUpperCase(); }
+      function trySubmit(){
+        const v = sanitize(input.value);
+        if (!v) { msg.textContent = 'Entre le mot de passe.'; return; }
+        if (v === 'ROYAUME') { close(); showMiniGame(); }
+        else { msg.textContent = 'Mot de passe incorrect.'; }
+      }
+
+      if (left) left.addEventListener('click', open);
+      closeBtn && closeBtn.addEventListener('click', close);
+      submit && submit.addEventListener('click', trySubmit);
+      input && input.addEventListener('keydown', (e)=>{ if (e.key === 'Enter') trySubmit(); });
+    })();
     document.getElementById('closeMiniGame').addEventListener('click', function() {
       document.getElementById('miniGameModal').style.display = 'none';
     });
@@ -274,11 +646,153 @@
     document.getElementById('miniGameSendBtn').addEventListener('click', function() {
       const val = document.getElementById('miniGameInput').value.trim().toUpperCase();
       if(val === 'AMOUR') {
-        document.getElementById('miniGameResult').innerHTML = '<div class="mini-game-success">Bravo ! Tu as trouvé le mot !</div>';
+  document.getElementById('miniGameModal').style.display = 'none';
+  if (typeof window.showCongrats === 'function') window.showCongrats('AMOUR');
       } else {
         document.getElementById('miniGameResult').innerHTML = '<div style="color:#ff7f7f;font-weight:bold;">Mauvais mot, réessaie !</div>';
       }
     });
+
+    // Right square: matching game
+    (function(){
+      const openBtn = document.getElementById('right-square');
+      const modal = document.getElementById('matchGameModal');
+      const closeBtn = document.getElementById('closeMatchGame');
+      const validate = document.getElementById('matchValidate');
+      const reset = document.getElementById('matchReset');
+      const result = document.getElementById('matchResult');
+      const fields = [
+        { sel: 't1', box: 't1-box', correct: 'A' },
+        { sel: 't2', box: 't2-box', correct: 'B' },
+        { sel: 't3', box: 't3-box', correct: 'C' },
+        { sel: 't4', box: 't4-box', correct: 'D' },
+      ];
+
+      function open() {
+        if (!modal) return;
+        modal.style.display = 'flex';
+        result.textContent='';
+        clearStyles();
+        // Shuffle references order and select options
+        shuffleRefs();
+        shuffleAllSelects();
+        shuffleTestimonies();
+      }
+      function shuffleRefs(){
+        const list = document.getElementById('refsList');
+        if (!list) return;
+        const items = Array.from(list.children);
+        for (let i = items.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          list.appendChild(items[j]);
+          items.splice(j,1);
+        }
+      }
+      function shuffleTestimonies(){
+        const col = document.getElementById('testimoniesCol');
+        if (!col) return;
+        const items = Array.from(col.children);
+        for (let i = items.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [items[i], items[j]] = [items[j], items[i]];
+        }
+        items.forEach(node => col.appendChild(node));
+      }
+      function shuffleAllSelects(){
+        fields.forEach(f => {
+          const sel = document.getElementById(f.sel);
+          if (sel) shuffleSelectOptions(sel);
+        });
+      }
+      function shuffleSelectOptions(select){
+        const placeholder = Array.from(select.options).find(o => o.value === '');
+        const opts = Array.from(select.options).filter(o => o.value !== '');
+        // Fisher-Yates
+        for (let i = opts.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [opts[i], opts[j]] = [opts[j], opts[i]];
+        }
+        // Rebuild
+        select.innerHTML = '';
+        if (placeholder) select.appendChild(placeholder);
+        opts.forEach(o => select.appendChild(o));
+        // Ensure placeholder selected
+        select.value = '';
+      }
+      function close() { if (modal) modal.style.display = 'none'; }
+      function clearStyles(){
+        fields.forEach(f => {
+          const el = document.getElementById(f.box);
+          const sel = document.getElementById(f.sel);
+          if (el) { el.classList.remove('is-correct','is-wrong'); }
+          if (sel) { sel.value = ''; }
+        });
+      }
+
+      function doValidate(){
+        let ok = 0; let filled = 0;
+        // Nettoyer tout éventuel marquage précédent
+        fields.forEach(f => {
+          const el = document.getElementById(f.box);
+          const sel = document.getElementById(f.sel);
+          if (!sel || !el) return;
+          el.classList.remove('is-correct','is-wrong');
+        });
+
+        fields.forEach(f => {
+          const sel = document.getElementById(f.sel);
+          if (!sel) return;
+          const v = sel.value;
+          if (v) filled++;
+          if (v === f.correct) ok++;
+        });
+
+        if (ok === fields.length) {
+          // Success: close modal and show congrats with ESPOIR
+          if (modal) modal.style.display = 'none';
+          if (typeof window.showCongrats === 'function') window.showCongrats('ESPOIR');
+        } else if (filled === fields.length) {
+          // N'indique pas quels éléments, seulement un retour global
+          result.innerHTML = `<span class="ko">Il y a des erreurs. Réessaie.</span>`;
+        } else {
+          result.innerHTML = '<span class="ko">Complète toutes les réponses puis valide.</span>';
+        }
+      }
+
+      if (openBtn) openBtn.style.cursor = 'pointer';
+      // Do not open directly on click; gated by password modal
+      closeBtn && closeBtn.addEventListener('click', close);
+      validate && validate.addEventListener('click', doValidate);
+      reset && reset.addEventListener('click', function(){ clearStyles(); result.textContent=''; });
+
+      // Expose opener for password gate
+      window.openMatchGame = open;
+    })();
+
+    // Password modal logic for right-square (Relier) -> password: PAIX
+    (function(){
+      const right = document.getElementById('right-square');
+      const modal = document.getElementById('pwdModalRelier');
+      const closeBtn = document.getElementById('closePwdRelier');
+      const input = document.getElementById('pwdInputRelier');
+      const submit = document.getElementById('pwdSubmitRelier');
+      const msg = document.getElementById('pwdMsgRelier');
+
+      function open(){ if (modal){ modal.style.display = 'flex'; msg.textContent=''; input.value=''; setTimeout(()=>input.focus(), 0); } }
+      function close(){ if (modal) modal.style.display = 'none'; }
+      function sanitize(v){ return (v || '').normalize('NFD').replace(/\p{Diacritic}/gu,'').trim().toUpperCase(); }
+      function trySubmit(){
+        const v = sanitize(input.value);
+        if (!v) { msg.textContent = 'Entre le mot de passe.'; return; }
+        if (v === 'PAIX') { close(); if (typeof window.openMatchGame === 'function') window.openMatchGame(); }
+        else { msg.textContent = 'Mot de passe incorrect.'; }
+      }
+
+      if (right) right.addEventListener('click', open);
+      closeBtn && closeBtn.addEventListener('click', close);
+      submit && submit.addEventListener('click', trySubmit);
+      input && input.addEventListener('keydown', (e)=>{ if (e.key === 'Enter') trySubmit(); });
+    })();
 
     // Potato button interactions (.jpeg first, fallback to .jpg)
     (function(){
@@ -320,6 +834,61 @@
       if (img) {
         img.addEventListener('error', tryNext);
       }
+    })();
+
+    // Reusable Congrats modal logic
+    (function(){
+      const modal = document.getElementById('congratsModal');
+      const wordEl = document.getElementById('congratsWord');
+      const closeBtn = document.getElementById('closeCongrats');
+      function open(word){
+        if (!modal || !wordEl) return;
+        wordEl.textContent = String(word || '').toUpperCase();
+        modal.style.display = 'flex';
+      }
+      function close(){ if (modal) modal.style.display = 'none'; }
+      closeBtn && closeBtn.addEventListener('click', close);
+      // Close when clicking outside content
+      if (modal) modal.addEventListener('click', function(e){
+        if (e.target === modal) close();
+      });
+      window.showCongrats = open;
+    })();
+
+    // Lock strip: combined password gate with two inputs (first=ESPOIR, second=AMOUR)
+    (function(){
+      const trigger = document.getElementById('lockStrip');
+      const modal = document.getElementById('pwdModalLock');
+      const closeBtn = document.getElementById('closePwdLock');
+      const input1 = document.getElementById('pwdInputLock1');
+      const input2 = document.getElementById('pwdInputLock2');
+      const submit = document.getElementById('pwdSubmitLock');
+      const msg = document.getElementById('pwdMsgLock');
+      const riddle = document.getElementById('riddleModal');
+
+      function open(){ if (modal){ modal.style.display = 'flex'; msg.textContent=''; if(input1) input1.value=''; if(input2) input2.value=''; setTimeout(()=>input1 && input1.focus(), 0); } }
+      function close(){ if (modal) modal.style.display = 'none'; }
+      function openRiddle(){ if (riddle){ riddle.style.display = 'flex'; } }
+      function sanitize(v){ return (v || '').normalize('NFD').replace(/\p{Diacritic}/gu,'').trim().toUpperCase(); }
+      function trySubmit(){
+        const v1 = sanitize(input1 && input1.value);
+        const v2 = sanitize(input2 && input2.value);
+        if (!v1 || !v2) { msg.textContent = 'Renseigne les deux mots (ex: Mot 1 - Mot 2).'; return; }
+        if (v1 === 'ESPOIR' && v2 === 'AMOUR') { close(); openRiddle(); }
+        else { msg.textContent = 'Ordre ou mots incorrects.'; }
+      }
+
+      trigger && trigger.addEventListener('click', open);
+      closeBtn && closeBtn.addEventListener('click', close);
+      submit && submit.addEventListener('click', trySubmit);
+      input1 && input1.addEventListener('keydown', (e)=>{ if (e.key === 'Enter') trySubmit(); });
+      input2 && input2.addEventListener('keydown', (e)=>{ if (e.key === 'Enter') trySubmit(); });
+
+      // Close riddle when clicking outside content or on ×
+      const closeRiddleBtn = document.getElementById('closeRiddle');
+      function closeRiddle(){ if (riddle) riddle.style.display = 'none'; }
+      closeRiddleBtn && closeRiddleBtn.addEventListener('click', closeRiddle);
+      riddle && riddle.addEventListener('click', function(e){ if (e.target === riddle) closeRiddle(); });
     })();
   </script>
 </html>
