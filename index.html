@@ -61,7 +61,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 1000;
+  z-index: 3500;
     }
     .pwd-content {
       background: #222;
@@ -190,7 +190,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 3000; /* Above mini-game modal */
+  z-index: 5000; /* Above mini-game modal */
       padding: 2rem;
       box-sizing: border-box;
     }
@@ -221,7 +221,9 @@
       font-size: 1rem;
       line-height: 1.5;
       max-height: 85svh;
-      overflow: auto;
+      overflow: hidden; /* No outer scroll */
+      display: flex;
+      flex-direction: column;
     }
     .match-title { text-align: center; margin: 0 0 0.8rem 0; font-size: clamp(1.1rem, 4.8vw, 1.6rem); color: #fff; }
     .match-instr { text-align: center; margin: 0 0 0.8rem 0; color: #e2e2e2; font-size: 0.95rem; }
@@ -229,9 +231,10 @@
       display: grid;
       grid-template-columns: 1fr 0.9fr;
       gap: 0.8rem;
-      max-height: 70svh;
-      overflow: auto;
     }
+    .match-header { flex: 0 0 auto; }
+    .match-scroll { flex: 1 1 auto; overflow: auto; }
+    .match-footer { flex: 0 0 auto; margin-top: 0.6rem; }
     .match-col { display: flex; flex-direction: column; gap: 0.6rem; }
     .testimony {
       background: #2a2a2a;
@@ -480,10 +483,14 @@ Mon tout est une promesse pour ceux qui cherchent la paix, Il se trouve dans une
     <div id="matchGameModal" class="mini-game-modal" style="display:none;">
       <div class="match-game-content">
         <button class="mini-game-btn-close" id="closeMatchGame" title="Fermer">&times;</button>
-        <h2 class="match-title">Relie les témoignages à leur correspondance</h2>
-        <p class="match-instr">Choisis A, B, C ou D pour chaque témoignage, puis valide.</p>
-        <div class="match-grid">
-          <div class="match-col" id="testimoniesCol">
+        <div class="match-header">
+          <h2 class="match-title">Relie les témoignages à leur correspondance</h2>
+          <p class="match-instr">Choisis A, B, C ou D pour chaque témoignage, puis valide.</p>
+          <div id="matchResult" class="match-result"></div>
+        </div>
+        <div class="match-scroll">
+          <div class="match-grid">
+            <div class="match-col" id="testimoniesCol">
             <div class="testimony" id="t1-box">
               <h4>Wilmar, Colombie</h4>
               <p>« J’ai été blessé par balles au dos et au visage, et j’ai vu beaucoup de gens, dont des enfants et des personnes âgées, se faire tuer. La guerre endurcit le cœur »</p>
@@ -528,21 +535,23 @@ Mon tout est une promesse pour ceux qui cherchent la paix, Il se trouve dans une
                 <option value="D">D</option>
               </select>
             </div>
-          </div>
-          <div class="match-col">
-            <div class="refs-list" id="refsList">
-              <div class="ref-item"><span class="ref-badge">A</span> <span>(Psaume 86:5)</span></div>
-              <div class="ref-item"><span class="ref-badge">B</span> <span>(Isaïe 65:17)</span></div>
-              <div class="ref-item"><span class="ref-badge">C</span> <span>(Psaume 72:7)</span></div>
-              <div class="ref-item"><span class="ref-badge">D</span> <span>(Psaume 37:10, 11)</span></div>
+            </div>
+            <div class="match-col">
+              <div class="refs-list" id="refsList">
+                <div class="ref-item"><span class="ref-badge">A</span> <span>(Psaume 86:5)</span></div>
+                <div class="ref-item"><span class="ref-badge">B</span> <span>(Isaïe 65:17)</span></div>
+                <div class="ref-item"><span class="ref-badge">C</span> <span>(Psaume 72:7)</span></div>
+                <div class="ref-item"><span class="ref-badge">D</span> <span>(Psaume 37:10, 11)</span></div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="match-actions">
-          <button id="matchValidate" class="btn">Valider</button>
-          <button id="matchReset" class="btn secondary">Réinitialiser</button>
+        <div class="match-footer">
+          <div class="match-actions">
+            <button id="matchValidate" class="btn">Valider</button>
+            <button id="matchReset" class="btn secondary">Réinitialiser</button>
+          </div>
         </div>
-        <div id="matchResult" class="match-result"></div>
       </div>
     </div>
 </body>
@@ -754,8 +763,10 @@ Mon tout est une promesse pour ceux qui cherchent la paix, Il se trouve dans une
         } else if (filled === fields.length) {
           // N'indique pas quels éléments, seulement un retour global
           result.innerHTML = `<span class="ko">Il y a des erreurs. Réessaie.</span>`;
+          setTimeout(()=>{ result.scrollIntoView({behavior:'smooth', block:'center'}); }, 0);
         } else {
           result.innerHTML = '<span class="ko">Complète toutes les réponses puis valide.</span>';
+          setTimeout(()=>{ result.scrollIntoView({behavior:'smooth', block:'center'}); }, 0);
         }
       }
 
